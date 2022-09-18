@@ -28,6 +28,6 @@
     "start": "ts-node src/index.ts",
     "dev": "ts-node-dev  src/index.ts",
     "start-vercel": "vercel dev",
-    "build": "vercel deploy --prod"
+    "build": "ts-node src/index.ts"
   }
 }
