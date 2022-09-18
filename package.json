@@ -1,0 +1,33 @@
+{
+  "name": "ascm-server",
+  "version": "0.0.1",
+  "description": "Awesome project developed with TypeORM.",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/express": "^4.17.14",
+    "@types/node": "^16.11.10",
+    "ts-node": "10.7.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "4.5.2"
+  },
+  "dependencies": {
+    "@types/body-parser": "^1.19.2",
+    "@types/cors": "^2.8.12",
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "helmet": "^6.0.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "mysql": "^2.14.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "0.3.9",
+    "vercel": "^28.2.5"
+  },
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "dev": "ts-node-dev  src/index.ts",
+    "start-vercel": "vercel dev",
+    "build": "vercel deploy --prod"
+  }
+}
