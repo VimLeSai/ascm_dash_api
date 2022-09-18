@@ -20,6 +20,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "mysql": "^2.14.1",
+    "pm2": "^5.2.0",
     "reflect-metadata": "^0.1.13",
     "typeorm": "0.3.9",
     "vercel": "^28.2.5"
@@ -28,6 +29,6 @@
     "start": "ts-node src/index.ts",
     "dev": "ts-node-dev  src/index.ts",
     "start-vercel": "vercel dev",
-    "build": "ts-node src/index.ts"
+    "build": "pm2 start npm --name 'ascm-api' -- start"
   }
 }

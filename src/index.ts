@@ -55,4 +55,4 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 // start express server
-app.listen(1212, () => console.log("server running on 1212 port"));
+app.listen(3000, () => console.log("server running on 3000 port"));
