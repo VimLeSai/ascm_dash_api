@@ -33,7 +33,17 @@ app.head("/status", (req, res) => {
 app.enable("trust proxy");
 
 // Enable Cross Origin Resource Sharing to all origins by default
-app.use(cors());
+// app.use(cors());
+//CORS middleware
+var allowCrossDomain = function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+
+  next();
+};
+
+app.use(allowCrossDomain);
 
 // Use Helmet to secure the app by setting various HTTP headers
 app.use(helmet());
@@ -55,4 +65,4 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 // start express server
-app.listen(3000, () => console.log("server running on 3000 port"));
+app.listen(4000, () => console.log("server running on 4000 port"));

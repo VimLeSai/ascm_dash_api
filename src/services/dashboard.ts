@@ -15,6 +15,7 @@ export const list = async (req: Request, res: Response) => {
   let data = [];
 
   if (interval === "1h") {
+    let takingLast = false;
     heads = await ascmFeedRepo.findBy({
       // take: 60,
       index: MoreThan(new Date(moment().subtract("60", "minutes").toString())),
@@ -24,6 +25,7 @@ export const list = async (req: Request, res: Response) => {
       heads = await ascmFeedRepo.find({
         take: 60,
       });
+      takingLast = true;
     }
 
     submitted = await ascmCountsRepo.findBy({
@@ -33,7 +35,7 @@ export const list = async (req: Request, res: Response) => {
       ),
     });
 
-    if (submitted.length === 0) {
+    if (takingLast) {
       submitted = await ascmCountsRepo.findBy({
         submit_date: MoreThan(
           new Date(
