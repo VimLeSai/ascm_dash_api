@@ -7,15 +7,13 @@ import { NextFunction, Request, Response } from "express";
 import helmet from "helmet";
 import apiRoutes from "./routes";
 
-import { AppDataSource } from "./data-source";
+import AppDataSource from "./data-source";
 
-(function () {
-  AppDataSource.initialize()
-    .then(async () => {
-      console.log("Database has been initialized.");
-    })
-    .catch((error) => console.log(error));
-})();
+AppDataSource.initialize()
+  .then(async () => {
+    console.log("Database has been initialized.");
+  })
+  .catch((error) => console.log(error));
 
 // create and setup express app
 const app = express();
@@ -30,7 +28,7 @@ app.head("/status", (req, res) => {
   res.status(200).end();
 });
 
-app.enable("trust proxy");
+// app.enable("trust proxy");
 
 // Enable Cross Origin Resource Sharing to all origins by default
 // app.use(cors());
@@ -46,7 +44,7 @@ var allowCrossDomain = function (req, res, next) {
 app.use(allowCrossDomain);
 
 // Use Helmet to secure the app by setting various HTTP headers
-app.use(helmet());
+// app.use(helmet());
 
 // Middleware that transforms the raw string of req.body into json
 app.use(bodyParser.json());

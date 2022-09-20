@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, Index } from "typeorm";
 
 @Entity()
-export class ascmfeed_v2 {
+export class ascmfeed_v20 {
   @PrimaryGeneratedColumn({})
   id: number;
 

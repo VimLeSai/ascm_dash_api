@@ -1,8 +1,9 @@
+import "reflect-metadata";
 import { Request, Response } from "express";
 import groupBy from "lodash/groupBy";
 import moment from "moment";
 import { MoreThan } from "typeorm";
-import { AppDataSource } from "./../data-source";
+import AppDataSource from "./../data-source";
 import { ascmcounts } from "./../entity/ascmcounts";
 import { ascmfeed_v2 } from "./../entity/ascmfeed_v2";
 
@@ -20,7 +21,6 @@ export const list = async (req: Request, res: Response) => {
       // take: 60,
       index: MoreThan(new Date(moment().subtract("60", "minutes").toString())),
     });
-
     if (heads.length === 0) {
       heads = await ascmFeedRepo.find({
         take: 60,
@@ -28,35 +28,28 @@ export const list = async (req: Request, res: Response) => {
       takingLast = true;
     }
 
-    submitted = await ascmCountsRepo.findBy({
-      // submit_date: MoreThan(new Date("2022-05-27 06:35:24")),
-      submit_date: MoreThan(
-        new Date(moment().subtract("60", "minutes").toString())
-      ),
-    });
-
     if (takingLast) {
+      submitted = await ascmCountsRepo.find({
+        take: 60,
+      });
+    } else {
       submitted = await ascmCountsRepo.findBy({
+        // submit_date: MoreThan(new Date("2022-05-27 06:35:24")),
         submit_date: MoreThan(
-          new Date(
-            moment(heads[heads.length - 1])
-              .subtract("59", "minutes")
-              .toString()
-          )
+          new Date(moment().subtract("60", "minutes").toString())
         ),
       });
     }
-
     let grp = groupBy(submitted, (x) =>
       moment(x.submit_date).format("YYYY-MM-DD HH:mm")
     );
 
-    submitted = Object.entries(grp);
+    submitted = Object.values(grp);
     data = heads.map((x, i) => {
       return {
         date: x.index,
-        head: x.count,
-        submitted: submitted[1]?.length,
+        head: x.count || 0,
+        submitted: submitted[i]?.length || 0,
       };
     });
   }
@@ -91,7 +84,7 @@ export const counts = async (req: Request, res: Response) => {
   const surveyCounts = await ascmCountsRepo
     .createQueryBuilder(ascmcounts.name)
     .select("max(submit_date)", "session_start_date")
-    .select("count(id)", "count")
+    .select("COUNT(*)", "count")
     .groupBy("minute(submit_date)")
     .getRawMany();
 
